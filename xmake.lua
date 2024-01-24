@@ -17,8 +17,15 @@ target("SerialHelper")
     add_packages("serial", "libsdl")
     add_deps("imgui")
 
-    add_includedirs("third_party/imgui", "third_party/imgui/backends")
+    add_includedirs("third_party/imgui", "third_party/imgui/backends", "third_party/inipp")
+    add_includedirs("src")
     add_files("src/*.cpp")
+
+    after_build(function (target)
+                    os.cp("$(projectdir)/res/font/*.ttf", target:targetdir() .. "/res/")
+                    os.cp("$(projectdir)/res/cfg/language.ini", target:targetdir() .. "/res/language.ini")
+                end
+    )
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

@@ -1,5 +1,5 @@
 add_rules("mode.debug", "mode.release")
-set_languages("c11", "c++20")
+set_languages("c11", "c++17")
 
 add_requires("serial", "libsdl")
 

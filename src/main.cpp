@@ -1,4 +1,4 @@
-#include "common.h"
+﻿#include "common.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
@@ -11,10 +11,13 @@
 #endif
 
 const int base_size = 20;
+std::string init_language = u8"中文";
 
 // Main code
 int main(int, char **)
 {
+    InitLanguage(init_language);
+
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
@@ -29,10 +32,10 @@ int main(int, char **)
 
     // Create window with SDL_Renderer graphics context
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_Window *window = SDL_CreateWindow("Dear ImGui SDL2+SDL_Renderer example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+    SDL_Window *window = SDL_CreateWindow("SerialHelper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (window == nullptr)
     {
-        printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
+        SDL_Log("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
         return -1;
     }
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
@@ -101,10 +104,10 @@ int main(int, char **)
         ImGui::NewFrame();
 
         // my code
+        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_AutoHideTabBar);
         if (1)
         {
-            ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_AutoHideTabBar);
-            ImGui::Begin("Config");
+            ImGui::Begin("ConfigWindow");
             
             if (ImGui::Combo(method.label.c_str(), &method.choice, method.list_str.c_str()))
             {
@@ -129,6 +132,32 @@ int main(int, char **)
                 SDL_Log("Warning: wrone current_communicate_method!");
                 break;
             }
+            ImGui::Separator();
+            
+            ImGui::End();
+        }
+        if (2)
+        {
+            ImGui::Begin("TextWindow");
+
+            ImGui::End();
+        }
+        if (3)
+        {
+            ImGui::Begin("ChartWindow");
+
+            ImGui::End();
+        }
+        if (4)
+        {
+            ImGui::Begin("ProjectWindow");
+
+            ImGui::End();
+        }
+        if (5)
+        {
+            ImGui::Begin("HelpWindow");
+
             ImGui::End();
         }
 

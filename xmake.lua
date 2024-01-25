@@ -5,19 +5,19 @@ add_requires("serial", "libsdl")
 
 target("imgui")
     set_kind("static")
-
-    add_includedirs("third_party/imgui", "third_party/imgui/backends")
-    add_files("third_party/imgui/*.cpp")
-
-    add_files("third_party/imgui/backends/imgui_impl_sdlrenderer2.cpp", "third_party/imgui/backends/imgui_impl_sdl2.cpp")
     add_packages("libsdl")
+
+    add_includedirs("third_party/imgui", "third_party/imgui/backends", "third_party/implot")
+    add_files("third_party/imgui/*.cpp")
+    add_files("third_party/imgui/backends/imgui_impl_sdlrenderer2.cpp", "third_party/imgui/backends/imgui_impl_sdl2.cpp")
+    add_files("third_party/implot/implot.cpp", "third_party/implot/implot_items.cpp")
 
 target("SerialHelper")
     set_kind("binary")
     add_packages("serial", "libsdl")
     add_deps("imgui")
 
-    add_includedirs("third_party/imgui", "third_party/imgui/backends", "third_party/inipp")
+    add_includedirs("third_party/imgui", "third_party/imgui/backends", "third_party/implot", "third_party/inipp")
     add_includedirs("src")
     add_files("src/*.cpp")
 

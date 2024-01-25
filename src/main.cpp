@@ -13,6 +13,12 @@
 const int base_size = 20;
 std::string init_language = u8"中文";
 
+int input_cb(ImGuiInputTextCallbackData *data)
+{
+    SDL_Log("callback");
+    return 0;
+}
+
 // Main code
 int main(int, char **)
 {
@@ -108,7 +114,7 @@ int main(int, char **)
         if (1)
         {
             ImGui::Begin("ConfigWindow");
-            
+
             if (ImGui::Combo(method.label.c_str(), &method.choice, method.list_str.c_str()))
             {
                 // TODO
@@ -133,18 +139,33 @@ int main(int, char **)
                 break;
             }
             ImGui::Separator();
-            
+
             ImGui::End();
         }
         if (2)
         {
             ImGui::Begin("TextWindow");
-
+            static bool enable_text = true;
+            ImGui::Checkbox(GetText("ENABLE").c_str(), &enable_text);
+            float width = ImGui::GetWindowWidth();
+            float height = ImGui::GetWindowHeight() - 5 * ImGui::GetFrameHeight();
+            static char bufferr[100] = {0};
+            ImGui::InputTextMultiline("##ReadText", bufferr, 100, ImVec2(width, 0.7f * height), ImGuiInputTextFlags_AllowTabInput, input_cb);
+            ImGui::Separator();
+            static char bufferw[100] = {0};
+            ImGui::InputTextMultiline("##WriteText", bufferw, 100, ImVec2(width, 0.3f * height), ImGuiInputTextFlags_AllowTabInput, input_cb);
+            if (ImGui::Button(GetText("SEND").c_str()))
+            {
+                // TODO
+                SDL_Log("Send Button");
+            }
             ImGui::End();
         }
         if (3)
         {
             ImGui::Begin("ChartWindow");
+            static bool enable_chart = false;
+            ImGui::Checkbox(GetText("ENABLE").c_str(), &enable_chart);
 
             ImGui::End();
         }

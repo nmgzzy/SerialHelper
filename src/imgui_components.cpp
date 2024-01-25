@@ -4,11 +4,11 @@
 
 void ShowUartConfig()
 {
-	static BaudRateComboConfig baud_rate;
+    static BaudRateComboConfig baud_rate;
     static DataBitsComboConfig data_bits;
     static ParityComboConfig parity;
     static StopBitsComboConfig stop_bits;
-    
+
     if (ImGui::Combo(baud_rate.label.c_str(), &baud_rate.choice, baud_rate.list_str.c_str()))
     {
         // TODO
@@ -25,9 +25,8 @@ void ShowUartConfig()
     {
         // TODO
     }
-    
 
-    if (ImGui::Button(GetText("OPEN").c_str()))
+    if (ImGui::Button(GetText("OPEN").c_str(), ImVec2(ImGui::GetWindowWidth(), 0)))
     {
         // TODO
     }

@@ -27,7 +27,7 @@ int main(int, char **)
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
-        printf("Error: %s\n", SDL_GetError());
+        SDL_Log("Error: %s\n", SDL_GetError());
         return -1;
     }
 
@@ -57,6 +57,7 @@ int main(int, char **)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
@@ -163,7 +164,7 @@ int main(int, char **)
         }
         if (3)
         {
-            ImGui::Begin("ChartWindow");
+            ImGui::Begin("PlottingWindow");
             static bool enable_chart = false;
             ImGui::Checkbox(GetText("ENABLE").c_str(), &enable_chart);
 
@@ -222,6 +223,7 @@ int main(int, char **)
     // Cleanup
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 
     SDL_DestroyRenderer(renderer);

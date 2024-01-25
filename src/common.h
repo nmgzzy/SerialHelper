@@ -6,4 +6,5 @@
 #include <string>
 
 #include "imgui.h"
+#include "implot.h"
 #include <SDL.h>

@@ -7,6 +7,10 @@ target("imgui")
     set_kind("static")
     add_packages("libsdl")
 
+    if is_mode("debug") then 
+        add_defines("MY_DEBUG")
+    end
+
     add_includedirs("third_party/imgui", "third_party/imgui/backends", "third_party/implot")
     add_files("third_party/imgui/*.cpp")
     add_files("third_party/imgui/backends/imgui_impl_sdlrenderer2.cpp", "third_party/imgui/backends/imgui_impl_sdl2.cpp")
@@ -16,6 +20,10 @@ target("SerialHelper")
     set_kind("binary")
     add_packages("serial", "libsdl")
     add_deps("imgui")
+
+    if is_mode("debug") then 
+        add_defines("MY_DEBUG")
+    end
 
     add_includedirs("third_party/imgui", "third_party/imgui/backends", "third_party/implot", "third_party/inipp")
     add_includedirs("src")

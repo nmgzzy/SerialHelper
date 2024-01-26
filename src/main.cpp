@@ -10,14 +10,9 @@
 #error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
 #endif
 
-const int base_size = 20;
-std::string init_language = u8"中文";
-
-int input_cb(ImGuiInputTextCallbackData *data)
-{
-    SDL_Log("callback");
-    return 0;
-}
+const static float font_size = 20;
+//std::string init_language = "English";
+std::string init_language = "\xE4\xB8\xAD\xE6\x96\x87"; // Chinese
 
 // Main code
 int main(int, char **)
@@ -74,12 +69,10 @@ int main(int, char **)
     // Load Fonts
     ImFontConfig config;
     config.MergeMode = true;
-    io.Fonts->AddFontFromFileTTF("res/DroidSans.ttf", base_size);
-    ImFont *font = io.Fonts->AddFontFromFileTTF("res/DroidSansFallback.ttf", base_size, &config, io.Fonts->GetGlyphRangesChineseFull());
+    io.Fonts->AddFontFromFileTTF("res/DroidSans.ttf", font_size);
+    ImFont *font = io.Fonts->AddFontFromFileTTF("res/DroidSansFallback.ttf", font_size, &config, io.Fonts->GetGlyphRangesChineseFull());
 
     // Our state
-    bool show_demo_window = true;
-    bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     //////////////////////////////////////////
@@ -145,71 +138,17 @@ int main(int, char **)
         }
         if (2)
         {
-            ImGui::Begin("TextWindow");
-            static bool enable_text = true;
-            ImGui::Checkbox(GetText("ENABLE").c_str(), &enable_text);
-            float width = ImGui::GetWindowWidth();
-            float height = ImGui::GetWindowHeight() - 5 * ImGui::GetFrameHeight();
-            static char bufferr[100] = {0};
-            ImGui::InputTextMultiline("##ReadText", bufferr, 100, ImVec2(width, 0.7f * height), ImGuiInputTextFlags_AllowTabInput, input_cb);
-            ImGui::Separator();
-            static char bufferw[100] = {0};
-            ImGui::InputTextMultiline("##WriteText", bufferw, 100, ImVec2(width, 0.3f * height), ImGuiInputTextFlags_AllowTabInput, input_cb);
-            if (ImGui::Button(GetText("SEND").c_str()))
-            {
-                // TODO
-                SDL_Log("Send Button");
-            }
-            ImGui::End();
-        }
-        if (3)
-        {
-            ImGui::Begin("PlottingWindow");
-            static bool enable_chart = false;
-            ImGui::Checkbox(GetText("ENABLE").c_str(), &enable_chart);
-
-            ImGui::End();
-        }
-        if (4)
-        {
-            ImGui::Begin("ProjectWindow");
-
-            ImGui::End();
-        }
-        if (5)
-        {
-            ImGui::Begin("HelpWindow");
-
-            ImGui::End();
+            ShowTextWindow();
+            ShowPlottingWindow();
+            ShowProfessionalWindow();
+            ShowHelpWindow();
         }
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+#ifdef MY_DEBUG
+        static bool show_demo_window = true;
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
-
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        if (0)
-        {
-            static float f = 0.0f;
-            static int counter = 0;
-
-            ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-
-            ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
-        }
+#endif
 
         // Rendering
         ImGui::Render();

@@ -149,3 +149,7 @@ public:
 
 
 void ShowUartConfig();
+void ShowTextWindow();
+void ShowPlottingWindow();
+void ShowProfessionalWindow();
+void ShowHelpWindow();

@@ -8,13 +8,13 @@
 #include "inipp.h"
 
 using std::string;
-using std::vector;
 using std::unordered_map;
+using std::vector;
 
 static unordered_map<string, string> s_text_map;
 static string s_language_setting = "English";
 
-int InitLanguage(string language)
+int InitLanguage(const string &language)
 {
     inipp::Ini<char> ini;
     std::ifstream is("res/language.ini");
@@ -57,7 +57,7 @@ int InitLanguage(string language)
     return 0;
 }
 
-string GetText(string key)
+string GetText(const string &key)
 {
     auto iter = s_text_map.find(key);
     if (iter != s_text_map.end())

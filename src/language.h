@@ -2,5 +2,5 @@
 
 #include <string>
 
-int InitLanguage(std::string language);
-std::string GetText(std::string key);
+int InitLanguage(const std::string &language);
+std::string GetText(const std::string &key);

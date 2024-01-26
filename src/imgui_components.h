@@ -5,26 +5,18 @@
 class ComboConfig
 {
 public:
-	std::string label;
-	std::vector<std::string> list;
-	int choice = 0;
-	std::string list_str;
+    std::string label;
+    std::vector<std::string> list;
+    int choice = 0;
+    std::string list_str;
 
-	ComboConfig(std::string label_)
-	{
-		label = GetText(label_);
-	}
+    ComboConfig(std::string label_)
+    {
+        label = GetText(label_);
+    }
 
 protected:
-	void ListString()
-	{
-		for (std::string i : list)
-		{
-			list_str.append(i);
-			list_str.push_back('\0');
-		}
-		list_str.push_back('\0');
-	}
+    void ListString();
 };
 
 class CommunicateMethodComboConfig : public ComboConfig
@@ -41,7 +33,7 @@ public:
 
     CommunicateMethodComboConfig() : ComboConfig("COM_METHOD")
     {
-        const char* method_list[COMMUNICATE_NUM] = { "SERIAL", "TCP_SERVER", "TCP_CLIENT", "UDP" };
+        const char *method_list[COMMUNICATE_NUM] = {"SERIAL", "TCP_SERVER", "TCP_CLIENT", "UDP"};
         for (int i = 0; i < COMMUNICATE_NUM; i++)
         {
             list.emplace_back(std::string(GetText(method_list[i])));
@@ -70,7 +62,7 @@ public:
 
     BaudRateComboConfig() : ComboConfig("BAUD_RATE")
     {
-        const char* baud_rate_list[BAUD_RATE_NUM] = { "9600", "19200", "38400", "57600", "115200", "128000", "256000" , "512000" , "921600", "1500000" };
+        const char *baud_rate_list[BAUD_RATE_NUM] = {"9600", "19200", "38400", "57600", "115200", "128000", "256000", "512000", "921600", "1500000"};
         for (int i = 0; i < BAUD_RATE_NUM; i++)
         {
             list.emplace_back(std::string(baud_rate_list[i]));
@@ -93,7 +85,7 @@ public:
 
     DataBitsComboConfig() : ComboConfig("DATA_BITS")
     {
-        const char* data_bits_list[DATA_BITS_NUM] = { "5", "6", "7", "8"};
+        const char *data_bits_list[DATA_BITS_NUM] = {"5", "6", "7", "8"};
         for (int i = 0; i < DATA_BITS_NUM; i++)
         {
             list.emplace_back(std::string(data_bits_list[i]));
@@ -115,7 +107,7 @@ public:
 
     ParityComboConfig() : ComboConfig("PARITY")
     {
-        const char* parity_list[PARITY_NUM] = { "None", "Odd", "Even" };
+        const char *parity_list[PARITY_NUM] = {"None", "Odd", "Even"};
         for (int i = 0; i < PARITY_NUM; i++)
         {
             list.emplace_back(std::string(parity_list[i]));
@@ -123,7 +115,6 @@ public:
         ListString();
     }
 };
-
 
 class StopBitsComboConfig : public ComboConfig
 {
@@ -138,7 +129,7 @@ public:
 
     StopBitsComboConfig() : ComboConfig("STOP_BITS")
     {
-        const char* stop_bits_list[STOP_BITS_NUM] = { "1", "1.5", "2"};
+        const char *stop_bits_list[STOP_BITS_NUM] = {"1", "1.5", "2"};
         for (int i = 0; i < STOP_BITS_NUM; i++)
         {
             list.emplace_back(std::string(stop_bits_list[i]));
@@ -146,7 +137,6 @@ public:
         ListString();
     }
 };
-
 
 void ShowUartConfig();
 void ShowTextWindow();

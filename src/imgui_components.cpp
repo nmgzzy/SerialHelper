@@ -1,6 +1,18 @@
 ﻿#include "imgui_components.h"
 #include "imgui.h"
 #include <SDL.h>
+#include <sstream>
+
+void ComboConfig::ListString()
+{
+    std::stringstream tmp;
+    for (std::string i : list)
+    {
+        tmp << i << '\0';
+    }
+    tmp << '\0';
+    list_str = tmp.str();
+}
 
 void ShowUartConfig()
 {
@@ -114,39 +126,39 @@ static void Demo_RealtimePlots()
     }
 }
 
-//void Demo_DragLines()
+// void Demo_DragLines()
 //{
-//    static double x1 = 0.2;
-//    static double x2 = 0.8;
-//    static double y1 = 0.25;
-//    static double y2 = 0.75;
-//    static double f = 0.1;
-//    static ImPlotDragToolFlags flags = ImPlotDragToolFlags_None;
-//    ImGui::CheckboxFlags("NoCursors", (unsigned int *)&flags, ImPlotDragToolFlags_NoCursors);
-//    ImGui::SameLine();
-//    ImGui::CheckboxFlags("NoFit", (unsigned int *)&flags, ImPlotDragToolFlags_NoFit);
-//    ImGui::SameLine();
-//    ImGui::CheckboxFlags("NoInput", (unsigned int *)&flags, ImPlotDragToolFlags_NoInputs);
-//    if (ImPlot::BeginPlot("##lines", ImVec2(-1, 0)))
-//    {
-//        ImPlot::SetupAxesLimits(0, 1, 0, 1);
-//        ImPlot::DragLineX(0, &x1, ImVec4(1, 1, 1, 1), 1, flags);
-//        ImPlot::DragLineX(1, &x2, ImVec4(1, 1, 1, 1), 1, flags);
-//        ImPlot::DragLineY(2, &y1, ImVec4(1, 1, 1, 1), 1, flags);
-//        ImPlot::DragLineY(3, &y2, ImVec4(1, 1, 1, 1), 1, flags);
-//        double xs[1000], ys[1000];
-//        for (int i = 0; i < 1000; ++i)
-//        {
-//            xs[i] = (x2 + x1) / 2 + fabs(x2 - x1) * (i / 1000.0f - 0.5f);
-//            ys[i] = (y1 + y2) / 2 + fabs(y2 - y1) / 2 * sin(f * i / 10);
-//        }
-//        ImPlot::PlotLine("Interactive Data", xs, ys, 1000);
-//        ImPlot::DragLineY(120482, &f, ImVec4(1, 0.5f, 1, 1), 1, flags);
-//        ImPlot::EndPlot();
-//    }
-//}
+//     static double x1 = 0.2;
+//     static double x2 = 0.8;
+//     static double y1 = 0.25;
+//     static double y2 = 0.75;
+//     static double f = 0.1;
+//     static ImPlotDragToolFlags flags = ImPlotDragToolFlags_None;
+//     ImGui::CheckboxFlags("NoCursors", (unsigned int *)&flags, ImPlotDragToolFlags_NoCursors);
+//     ImGui::SameLine();
+//     ImGui::CheckboxFlags("NoFit", (unsigned int *)&flags, ImPlotDragToolFlags_NoFit);
+//     ImGui::SameLine();
+//     ImGui::CheckboxFlags("NoInput", (unsigned int *)&flags, ImPlotDragToolFlags_NoInputs);
+//     if (ImPlot::BeginPlot("##lines", ImVec2(-1, 0)))
+//     {
+//         ImPlot::SetupAxesLimits(0, 1, 0, 1);
+//         ImPlot::DragLineX(0, &x1, ImVec4(1, 1, 1, 1), 1, flags);
+//         ImPlot::DragLineX(1, &x2, ImVec4(1, 1, 1, 1), 1, flags);
+//         ImPlot::DragLineY(2, &y1, ImVec4(1, 1, 1, 1), 1, flags);
+//         ImPlot::DragLineY(3, &y2, ImVec4(1, 1, 1, 1), 1, flags);
+//         double xs[1000], ys[1000];
+//         for (int i = 0; i < 1000; ++i)
+//         {
+//             xs[i] = (x2 + x1) / 2 + fabs(x2 - x1) * (i / 1000.0f - 0.5f);
+//             ys[i] = (y1 + y2) / 2 + fabs(y2 - y1) / 2 * sin(f * i / 10);
+//         }
+//         ImPlot::PlotLine("Interactive Data", xs, ys, 1000);
+//         ImPlot::DragLineY(120482, &f, ImVec4(1, 0.5f, 1, 1), 1, flags);
+//         ImPlot::EndPlot();
+//     }
+// }
 
-int input_cb(ImGuiInputTextCallbackData* data)
+int input_cb(ImGuiInputTextCallbackData *data)
 {
     SDL_Log("callback");
     return 0;
@@ -158,10 +170,10 @@ void ShowTextWindow()
     static bool enable_text = true;
     ImGui::Checkbox(GetText("ENABLE").c_str(), &enable_text);
     float height = ImGui::GetWindowHeight() - 5 * ImGui::GetFrameHeight();
-    static char bufferr[100] = { 0 };
+    static char bufferr[100] = {0};
     ImGui::InputTextMultiline("##ReadText", bufferr, 100, ImVec2(-1, 0.7f * height), ImGuiInputTextFlags_AllowTabInput, input_cb);
     ImGui::Separator();
-    static char bufferw[100] = { 0 };
+    static char bufferw[100] = {0};
     ImGui::InputTextMultiline("##WriteText", bufferw, 100, ImVec2(-1, 0.3f * height), ImGuiInputTextFlags_AllowTabInput, input_cb);
     if (ImGui::Button(GetText("SEND").c_str()))
     {

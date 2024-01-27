@@ -57,7 +57,7 @@ int InitLanguage(const string &language)
     return 0;
 }
 
-string GetText(const string &key)
+const string & GetText(const string &key)
 {
     auto iter = s_text_map.find(key);
     if (iter != s_text_map.end())

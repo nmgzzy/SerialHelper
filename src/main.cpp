@@ -17,6 +17,12 @@ std::string init_language = "\xE4\xB8\xAD\xE6\x96\x87"; // Chinese
 // Main code
 int main(int, char **)
 {
+#ifdef MY_DEBUG
+    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+    SDL_Log("debug mode!");
+#else
+    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_CRITICAL);
+#endif
     InitLanguage(init_language);
 
     // Setup SDL

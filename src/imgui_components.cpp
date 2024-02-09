@@ -1,12 +1,11 @@
 ﻿#include "imgui_components.h"
-#include "imgui.h"
-#include <SDL.h>
 #include <sstream>
+#include "serial_config.h"
 
 void ComboConfig::ListString()
 {
     std::stringstream tmp;
-    for (std::string i : list)
+    for (std::string_view i : list)
     {
         tmp << i << '\0';
     }
@@ -14,13 +13,34 @@ void ComboConfig::ListString()
     list_str = tmp.str();
 }
 
+void ComPortComboConfig::Refresh()
+{
+    SerialEnumeratePorts(port_list);
+    list.clear();
+    for (int i = 0; i < port_list.size(); i++)
+    {
+        list.emplace_back(std::string_view(port_list[i]));
+    }
+    ListString();
+}
+
 void ShowUartConfig()
 {
+    static ComPortComboConfig com_port;
     static BaudRateComboConfig baud_rate;
     static DataBitsComboConfig data_bits;
     static ParityComboConfig parity;
     static StopBitsComboConfig stop_bits;
 
+    if (ImGui::Combo(com_port.label.c_str(), &com_port.choice, com_port.list_str.c_str()))
+    {
+        // TODO
+    }
+    ImGui::SameLine();
+    if (ImGui::SmallButton("Re"))
+    {
+        com_port.Refresh();
+    }
     if (ImGui::Combo(baud_rate.label.c_str(), &baud_rate.choice, baud_rate.list_str.c_str()))
     {
         // TODO

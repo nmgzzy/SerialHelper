@@ -119,6 +119,8 @@ int main(int, char **)
             {
                 // TODO
             }
+            
+            ImGui::Separator();
 
             switch (method.choice)
             {

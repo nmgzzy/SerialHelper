@@ -6,7 +6,7 @@ class ComboConfig
 {
 public:
     std::string label;
-    std::vector<std::string> list;
+    std::vector<std::string_view> list;
     int choice = 0;
     std::string list_str;
 
@@ -36,10 +36,22 @@ public:
         const char *method_list[COMMUNICATE_NUM] = {"SERIAL", "TCP_SERVER", "TCP_CLIENT", "UDP"};
         for (int i = 0; i < COMMUNICATE_NUM; i++)
         {
-            list.emplace_back(std::string(GetText(method_list[i])));
+            list.emplace_back(std::string_view(GetText(method_list[i])));
         }
         ListString();
     }
+};
+
+class ComPortComboConfig : public ComboConfig
+{
+public:
+    std::vector<std::string> port_list;
+    ComPortComboConfig() : ComboConfig("COM_PORT")
+    {
+        Refresh();
+    }
+
+    void Refresh();
 };
 
 class BaudRateComboConfig : public ComboConfig
@@ -65,7 +77,7 @@ public:
         const char *baud_rate_list[BAUD_RATE_NUM] = {"9600", "19200", "38400", "57600", "115200", "128000", "256000", "512000", "921600", "1500000"};
         for (int i = 0; i < BAUD_RATE_NUM; i++)
         {
-            list.emplace_back(std::string(baud_rate_list[i]));
+            list.emplace_back(std::string_view(baud_rate_list[i]));
         }
         ListString();
     }
@@ -88,7 +100,7 @@ public:
         const char *data_bits_list[DATA_BITS_NUM] = {"5", "6", "7", "8"};
         for (int i = 0; i < DATA_BITS_NUM; i++)
         {
-            list.emplace_back(std::string(data_bits_list[i]));
+            list.emplace_back(std::string_view(data_bits_list[i]));
         }
         ListString();
     }
@@ -110,7 +122,7 @@ public:
         const char *parity_list[PARITY_NUM] = {"None", "Odd", "Even"};
         for (int i = 0; i < PARITY_NUM; i++)
         {
-            list.emplace_back(std::string(parity_list[i]));
+            list.emplace_back(std::string_view(parity_list[i]));
         }
         ListString();
     }
@@ -132,7 +144,7 @@ public:
         const char *stop_bits_list[STOP_BITS_NUM] = {"1", "1.5", "2"};
         for (int i = 0; i < STOP_BITS_NUM; i++)
         {
-            list.emplace_back(std::string(stop_bits_list[i]));
+            list.emplace_back(std::string_view(stop_bits_list[i]));
         }
         ListString();
     }
